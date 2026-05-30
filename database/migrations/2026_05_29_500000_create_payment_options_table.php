@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payment_options', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('user_id');
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('payment_type'); // static_qr, bank_transfer, cash
             $table->string('payment_method_name')->nullable(); // For Cash option custom title
             $table->string('bank_name')->nullable();
@@ -24,8 +24,6 @@ return new class extends Migration
             $table->text('remark')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
